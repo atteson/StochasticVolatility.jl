@@ -2,7 +2,8 @@ using FFTW
 
 export MAVolatilityModel, simulate
 
-struct MAVolatilityModel{F <: Function}
+struct MAVolatilityModel{F <: Function, T <: Real}
+    meanvol::T
     f::F
 end
 
@@ -17,12 +18,12 @@ end
 
 function Base.rand( model::MAVolatilityModel{F}, n::Int ) where {F}
     m = 2*n-1
-    N = 2^Int(ceil(log2(m)))
+    N = 2^Int(ceil(log2(m))+1)
     epsilon = randn( m )
-    delta = rand( n )
+    delta = randn( n )
     epsilon2 = Complex{Float64}[epsilon; zeros(N - m)]
-    a = Complex{Float64}[[model.f(i) for i in 1:n]; zeros(N - n)]
+    a = Complex{Float64}[[model.f(i-1) for i in 1:n]; zeros(N - n)]
     convolve!( epsilon2, a, a )
-    x = exp.(cumsum( real.(a[1:n]) )) .* delta
-    return (epsilon, x)
+    x = exp.(real.(a[1:n])) * model.meanvol .* delta
+    return (epsilon, delta, x)
 end
