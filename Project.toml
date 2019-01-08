@@ -1,0 +1,5 @@
+name = "StochasticVolatility"
+uuid = "305dc362-1367-11e9-2fa6-7516b9c44d22"
+
+[deps]
+FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
