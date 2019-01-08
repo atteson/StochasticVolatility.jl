@@ -10,14 +10,16 @@ model = MAVolatilityModel( 0.01, n -> 0.1 * 0.99^n )
 n = 1000
 (epsilon, delta, x) = rand( model, n )
 
-logsigma = zeros(n)
-for i = 1:n
-    for j = 1:n
-        logsigma[i] += model.f(j) * epsilon[n + i - j]
-    end
-end
-z = x ./ (model.meanvol * exp.(logsigma))
+a = [model.f(i) for i in 0:n-1]
 
-@assert( abs(StatsBase.mean(z)*sqrt(length(z))) < 4 )
-@assert( all(abs.([StatsBase.mean( z[1:end-d] .* z[d+1:end] ) * sqrt(length(z)-d) for d in 1:n-1]) .< 4) )
+m = 2 * n - 1
+N = 2^Int(ceil(log2(m))+1)
+epsilon2 = Complex{Float64}[epsilon; zeros(N - m)]
+a2 = Complex{Float64}[a; zeros(N - n)]
+logsigma = zeros(Complex{Float64}, N)
+StochasticVolatility.convolve!( epsilon2, a2, logsigma )
+StochasticVolatility.convolve!( epsilon2, a2, a2 )
+@assert( maximum(abs.(logsigma[n:2n-1] - StochasticVolatility.slowconvolve( a, epsilon ))) < 1e-12 )
 
+z = x ./ (model.meanvol * exp.(real.(logsigma[n:m])))
+maximum(abs.(z - delta))
