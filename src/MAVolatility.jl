@@ -1,5 +1,6 @@
 using FFTW
 using Distributions
+using StatsBase
 
 export MAVolatilityModel, simulate
 
@@ -43,8 +44,8 @@ function getsigma(
     m = length(epsilon)
     n = m - c + 1
     N = 2^Int(ceil(log2(m))+1)
-    epsilon2 = Complex{Float64}[epsilon; zeros(N - m)]
-    a = Complex{Float64}[[model.f(i-1) for i in 1:c]; zeros(N - c)]
+    epsilon2 = Complex{T}[epsilon; zeros(N - m)]
+    a = Complex{T}[[model.f(i-1) for i in 1:c]; zeros(N - c)]
     convolve!( epsilon2, a, a )
     return exp.(real.(a[n:m])) * model.meanvol
 end
@@ -52,19 +53,21 @@ end
 function Base.rand(
     model::MAVolatilityModel{F},
     n::Int,
-) where {F}
+    startvalue::T,
+) where {F, T <: Real}
     c = model.cutoff
     m = c + n - 1
     epsilon = randn( m )
     delta = randn( n )
 
     sigma = getsigma( model, epsilon )
-    
-    x = sigma .* delta
-    return (epsilon, delta, x)
+
+    logreturn = sigma .* delta
+    value = exp.(cumsum(logreturn)) * startvalue
+    return (epsilon=epsilon, delta=delta, sigma=sigma, logreturn=logreturn, value=value)
 end
 
-function loglikelihood(
+function StatsBase.loglikelihood(
     model::MAVolatilityModel{F},
     epsilon::AbstractVector{T},
     lo::AbstractVector{T},
@@ -74,7 +77,7 @@ function loglikelihood(
     ll = loglikelihood( n, epsilon )
     sigma = getsigma( model, epsilon )
     for i = 1:length(lo)
-        ll *= cdf( n, hi[i]/sigma[i] ) - cdf( n, lo[i]/sigma[i] )
+        ll += logcdf( n, hi[i]/sigma[i] ) - cdf( n, lo[i]/sigma[i] )
     end
     return ll
 end
