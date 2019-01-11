@@ -31,7 +31,7 @@
 
 \begin{lemma}
   \begin{eqnarray*}
-    \int_a^b \Phi(x) d\!x = 
+    \int_a^b \Phi(x) d\!x = b \Phi(b) - a \Phi(a) + \phi(b) - \phi(a)
   \end{eqnarray*}
 \end{lemma}
 \begin{proof}
@@ -63,7 +63,7 @@ where $\Delta_1, \Delta_2, \ldots$ are $N(0,1)$ IID random variables.
 
 \begin{lemma}
   \begin{eqnarray*}
-    \int_{a_i}^{b_i} \Phi\left( a_{i+1} - x_i \right) \frac{1}{\sigma_i} \phi\left(\frac{x_i - x_{i-1}}{\sigma_i}\right) d\!x_i = 
+    \int_{a_i}^{b_i} \Phi\left( \frac{a_{i+1} - x_i}{\sigma_{i+1}} \right) \frac{1}{\sigma_i} \phi\left(\frac{x_i - x_{i-1}}{\sigma_i}\right) d\!x_i = 
   \end{eqnarray*}
 \end{lemma}
 \begin{proof}
