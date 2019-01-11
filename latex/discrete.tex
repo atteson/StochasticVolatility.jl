@@ -13,39 +13,42 @@
 \end{eqnarray*}
 
 \begin{lemma}
-  \begin{eqnarray*}
-    \frac{d}{d\!x}\phi(x) = -x \phi(x)
-  \end{eqnarray*}
+  \begin{enumerate}
+    \item
+      \begin{eqnarray*}
+        \frac{d}{d\!x}\phi(x) = -x \phi(x)
+      \end{eqnarray*}
+    \item
+      \begin{eqnarray*}
+        \int_{-\infty}^a x\phi(x)d\!x = -\phi(a)
+      \end{eqnarray*}
+  \end{enumerate}
 \end{lemma}
 
 \begin{lemma}
   \begin{eqnarray*}
-    \int_a^b x\phi(x)d\!x = \phi(a) - \phi(b)
+    \int_{-\infty}^a \Phi\left(\frac{x - \mu}{\sigma}\right) d\!x = \left(a - \mu\right) \Phi\left(\frac{a-\mu}{\sigma}\right) + \phi\left(\frac{a-\mu}{\sigma}\right)\\
   \end{eqnarray*}
 \end{lemma}
 \begin{proof}
   \begin{eqnarray*}
-    \int_a^b x\phi(x)d\!x = -\int_a^b \frac{d}{d\!x}\phi(x)d\!x = \phi(a) - \phi(b)\\
+    \int_{-\infty}^a \Phi\left(\frac{x - \mu}{\sigma}\right) d\!x & = & \int_{-\infty}^{\frac{a-\mu}{\sigma}} \Phi(y) \sigma d\!y = \left.\sigma \Phi(y) y\right\vert_{-\infty}^{\frac{a-\mu}{\sigma}} - \int_{-\infty}^{\frac{a-\mu}{\sigma}} \sigma\phi(y) y d\!y\\
+    & = & \left(a - \mu\right) \Phi\left(\frac{a-\mu}{\sigma}\right) + \phi\left(\frac{a-\mu}{\sigma}\right)\\
   \end{eqnarray*}
 \end{proof}
 
 \begin{lemma}
   \begin{eqnarray*}
-    \int_a^b \Phi(x) d\!x = b \Phi(b) - a \Phi(a) + \phi(b) - \phi(a)
+    \lefteqn{\int_{-\infty}^a \Phi\left(\frac{x - \mu_2}{\sigma_2}\right) \frac{1}{\sigma_1}\phi\left(\frac{x - \mu_1}{\sigma_1}\right)d\!x}\\
   \end{eqnarray*}
 \end{lemma}
 \begin{proof}
   \begin{eqnarray*}
-    \int_a^b \Phi(x) d\!x & = & \left.\Phi(x) x\right\vert_a^b - \int_a^b \phi(x) x d\!x\\
-    & = & b \Phi(b) - a \Phi(a) + \phi(b) - \phi(a)
+    \lefteqn{\int_{-\infty}^a \Phi\left(\frac{x - \mu_2}{\sigma_2}\right) \frac{1}{\sigma_1}\phi\left(\frac{x - \mu_1}{\sigma_1}\right)d\!x}\\
+    & = & \left.\left(\left(x - \mu\right)\Phi\left(\frac{x - \mu_2}{\sigma_2}\right) + \phi\left(\frac{x - \mu}{\sigma}\right)\right)\frac{1}{\sigma_1}\phi\left(\frac{x - \mu_1}{\sigma_1}\right)\right\vert_{-\infty}^a\\
+    & & - \int_{-\infty}^a\left(\left(x - \mu\right)\Phi\left(\frac{x - \mu_2}{\sigma_2}\right) + \phi\left(\frac{x - \mu}{\sigma}\right)\right)\frac{x - \mu}{\sigma_1^3}\phi\left(\frac{x - \mu_1}{\sigma_1}\right)d\!x\\
   \end{eqnarray*}
 \end{proof}
-
-\begin{lemma}
-  \begin{eqnarray*}
-    \int_{a_2}^{b_2}\int_{a_1}^{b_1} \frac{1}{\sigma_1}\phi\left( \sigma_1 x_1 \right)d\!x_1 d\!x_2
-  \end{eqnarray*}
-\end{lemma}
 
 We now introduce the model:
 
@@ -68,7 +71,9 @@ where $\Delta_1, \Delta_2, \ldots$ are $N(0,1)$ IID random variables.
 \end{lemma}
 \begin{proof}
   \begin{eqnarray*}
-    \int_{a_i}^{b_i} \Phi\left( \frac{a_{i+1} - x_i}{\sigma_{i+1}} \right) \frac{1}{\sigma_i} \phi\left(\frac{x_i - x_{i-1}}{\sigma_i}\right) d\!x_i =
+    \lefteqn{\int_{a_i}^{b_i} \Phi\left( \frac{a_{i+1} - x_i}{\sigma_{i+1}} \right) \frac{1}{\sigma_i} \phi\left(\frac{x_i - x_{i-1}}{\sigma_i}\right) d\!x_i}\\
+    & = & \int_{a_i}^{b_i} \left(1 - \Phi\left( \frac{x_i - a_{i+1}}{\sigma_{i+1}} \right)\right) \frac{1}{\sigma_i} \phi\left(\frac{x_i - x_{i-1}}{\sigma_i}\right) d\!x_i\\
+    & = & \int_{a_i}^{b_i} \frac{1}{\sigma_i} \phi\left(\frac{x_i - x_{i-1}}{\sigma_i}\right) d\!x_i - \int_{a_i}^{b_i} \Phi\left( \frac{x_i - a_{i+1}}{\sigma_{i+1}} \right) \frac{1}{\sigma_i} \phi\left(\frac{x_i - x_{i-1}}{\sigma_i}\right) d\!x_i\\
   \end{eqnarray*}
 \end{proof}
 
