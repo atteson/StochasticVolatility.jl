@@ -1,0 +1,86 @@
+\documentclass{article}
+\usepackage{amsmath,amsfonts,amsthm}
+
+\usepackage{bbold}
+
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+
+\DeclareMathOperator{\sign}{sign}
+
+\begin{document}
+
+\begin{definition}
+\begin{eqnarray*}
+  \phi(x) & = & \frac{1}{\sqrt{2\pi}}\exp\left(-\frac{x^2}{2}\right)\\
+\end{eqnarray*}
+\end{definition}
+
+\begin{definition}
+  \begin{eqnarray*}
+    \sigma_i & = & \exp\left( \sum_{j=0}^\infty a_j \epsilon_{i-j} + \mu\right)\\
+    R_i & = & \sigma_i \delta_i\\
+    V_i & = & \exp\left(V_{i-1} + R_i\right)\\
+  \end{eqnarray*}
+
+  where $\epsilon$, $\delta$ are distributione IID $N(0,1)$\\
+\end{definition}
+
+\begin{lemma}
+  {\em (Change of variables for probability densities)}
+  If $g$ is monotonic:
+  
+  \begin{eqnarray*}
+    f_{g(X)}(y) = \frac{f_X\left(g^{-1}(y)\right)}{\left|\det\left(\frac{d\!g}{d\!x}(x)\right)\right|}
+  \end{eqnarray*}
+\end{lemma}
+
+\begin{lemma}
+  \begin{eqnarray*}
+    \det\left(\begin{array}{cc}
+      I & 0\\
+      M & N\\
+    \end{array}\right) = \det N
+  \end{eqnarray*}
+\end{lemma}
+
+\begin{lemma}
+  \begin{eqnarray*}
+    f_{\epsilon,R}\left(\epsilon,R\right) = \frac{\prod_i \phi\left( \frac{R_i}{\exp\left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\right)}{\exp\left(\sum_i \sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\\
+  \end{eqnarray*}
+\end{lemma}
+\begin{proof}
+  Define:
+
+  \begin{eqnarray*}
+    g(\epsilon, \delta) = \left(\epsilon, R\right)
+  \end{eqnarray*}
+
+  Now:
+
+  \begin{eqnarray*}
+    \frac{d\!R_i}{d\!\delta_j} = \exp\left(\sum_{k=0}^\infty a_k\epsilon_{i-k} + \mu\right) \mathbb{1}_{i=j}
+  \end{eqnarray*}
+
+  and:
+
+  \begin{eqnarray*}
+    \frac{d\!\epsilon}{d\!\delta} = 0\\
+    \frac{d\!\epsilon}{d\!\epsilon} = I\\
+  \end{eqnarray*}
+
+  so that:
+
+  \begin{eqnarray*}
+    \det\left(\frac{d\!g}{d\!x}(x)\right) & = & \prod_i \frac{d\!R_i}{d\!\delta_i} = \prod_i \exp\left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)\\
+    & = & \exp\left(\sum_i \sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)\\
+  \end{eqnarray*}
+
+  Hence:
+
+  \begin{eqnarray*}
+    f_{\epsilon,R}\left(\epsilon,R\right) = \frac{\prod_i \phi\left( \frac{R_i}{\exp\left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\right)}{\exp\left(\sum_i \sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\\
+  \end{eqnarray*}
+\end{proof}
+
+\end{document}
