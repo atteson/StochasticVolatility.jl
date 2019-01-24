@@ -46,7 +46,7 @@
 
 \begin{lemma}
   \begin{eqnarray*}
-    f_{\epsilon,R}\left(\epsilon,R\right) = \frac{\prod_i \phi\left( \frac{R_i}{\exp\left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\right)}{\exp\left(\sum_i \sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\\
+    f_{\epsilon,R}\left(\epsilon,R\right) = \frac{\prod_i \phi\left( \frac{R_i}{\exp\left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\right)}{\exp\left(\sum_i \left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)\right)}\\
   \end{eqnarray*}
 \end{lemma}
 \begin{proof}
@@ -73,13 +73,26 @@
 
   \begin{eqnarray*}
     \det\left(\frac{d\!g}{d\!x}(x)\right) & = & \prod_i \frac{d\!R_i}{d\!\delta_i} = \prod_i \exp\left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)\\
-    & = & \exp\left(\sum_i \sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)\\
+    & = & \exp\left(\sum_i \left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)\right)\\
   \end{eqnarray*}
 
   Hence:
 
   \begin{eqnarray*}
-    f_{\epsilon,R}\left(\epsilon,R\right) = \frac{\prod_i \phi\left( \frac{R_i}{\exp\left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\right)}{\exp\left(\sum_i \sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\\
+    f_{\epsilon,R}\left(\epsilon,R\right) = \frac{\prod_i \phi\left( \frac{R_i}{\exp\left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\right)}{\exp\left(\sum_i \left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)\right)}\\
+  \end{eqnarray*}
+\end{proof}
+
+\begin{lemma}
+  \begin{eqnarray*}
+    E_{a',\mu'}\left[\left. \log f_{\epsilon,R}\left(\epsilon,R\right) \right| R \right] = 
+  \end{eqnarray*}
+\end{lemma}
+\begin{proof}
+  \begin{eqnarray*}
+    \lefteqn{\log f_{\epsilon,R}\left(\epsilon,R\right)}\\
+    & = & \sum_i \log \phi\left( \frac{R_i}{\exp\left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\right) - \sum_i \left(\sum_{k=0}^\infty a_k \epsilon_{i-k} - \mu\right)\\
+    & = & -\frac{n}{2} \log\left(2 \pi\right) - \sum_i \frac{1}{2}\left( \frac{R_i}{\exp\left(\sum_{k=0}^\infty a_k \epsilon_{i-k} + \mu\right)}\right)^2 - \sum_i \left(\sum_{k=0}^\infty a_k \epsilon_{i-k} - \mu\right)\\
   \end{eqnarray*}
 \end{proof}
 

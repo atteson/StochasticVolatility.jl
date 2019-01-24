@@ -29,3 +29,4 @@ z = x ./ (model.meanvol * exp.(real.(logsigma[n:m])))
 
 price = round.( realization.value * 100 )./100
 loglikelihood( model, epsilon, price .- 0.005, price .+ 0.005 )
+
